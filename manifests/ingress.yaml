@@ -1,0 +1,16 @@
+apiVersion: extensions/v1
+kind: Ingress
+metadata:
+  name: razorpage
+  labels: 
+    app.kubernetes.io/name: razorpage
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /razorpage
+        backend:
+          serviceName: razorpage
+          servicePort: 8080

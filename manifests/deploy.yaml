@@ -1,0 +1,24 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: razorpage
+  labels:
+    app.kubernetes.io/name: 'razorpage'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: 'razorpage'
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: 'razorpage'
+    spec:
+      containers:
+      - name: razorpage
+        image: azuretoolsacr.azurecr.io/razorpage:1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+
