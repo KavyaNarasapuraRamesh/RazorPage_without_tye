@@ -56,7 +56,7 @@ jobs:
       uses: docker/build-push-action@v2.10.0
       with: 
        context: ./Dockerfile 
-       tags: azuretoolsacr.azurecr.io/razorpage:1.0.0
+       tags: azuretoolsacr.azurecr.io/razorapp:1.0.0
        push: ${{ github.ref == 'refs/heads/master' }}
          
      
