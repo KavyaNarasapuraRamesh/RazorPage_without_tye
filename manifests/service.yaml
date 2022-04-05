@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: razorpage
+  name: razor-page
   labels:
-    app.kubernetes.io/name: 'razorpage'
+    app.kubernetes.io/name: 'razor-page'
 spec:
   selector:
-    app.kubernetes.io/name: razorpage
+    app.kubernetes.io/name: razor-page
   type: ClusterIP
   ports:
   - name: http
