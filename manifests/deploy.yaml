@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: razor-page
-        image: azuretoolsacr.azurecr.io/razorpage:1.0.0
+        image: azuretoolsacr.azurecr.io/razorapp:1.0.0
         imagePullPolicy: Always
         ports:
         - containerPort: 80
