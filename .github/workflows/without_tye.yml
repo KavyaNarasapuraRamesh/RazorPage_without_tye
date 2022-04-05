@@ -52,6 +52,14 @@ jobs:
        method: kubeconfig
        kubeconfig: ${{ secrets.KUBE_CONFIG }}
      
+    - name: build and push
+      uses: docker/build-push-action@v2.10.0
+      with: 
+       context: Dockerfile   
+       tag: azuretoolsacr.azurecr.io/razorpage:1.0.0
+       push: ${{ github.ref == 'refs/heads/master' }}
+         
+     
 #     - uses: Azure/k8s-create-secret@v1
 #       with:
 #         container-registry-url: azuretoolsacr.azurecr.io
