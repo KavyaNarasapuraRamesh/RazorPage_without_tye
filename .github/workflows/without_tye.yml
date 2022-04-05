@@ -3,10 +3,6 @@ name: Build and Deploy
 on: [push]
 
 env:
-  AZURE_AKS_CLUSTER: toolsakscluster
-  AKS_RESOURCE_GROUP: azure-automation-rg
-  ACR_RESOURCE_URI: azuretoolsacr.azurecr.io
-  AZURE_CONTAINER_REGISTRY: azuretoolsacr
   PROJECT_NAME: Azure Automation
   NAMESPACE: default
   APP_NAME: microservices
@@ -26,8 +22,8 @@ jobs:
        
     - name: login
       run: |
-       az acr login -n ${{ env.AZURE_CONTAINER_REGISTRY }}
-       az aks get-credentials --resource-group azure-automation-rg --name toolsakscluster
+       az acr login -n ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+       az aks get-credentials --resource-group ${{  secrets.AKS_RESOURCE_GROUP }} --name ${{ secrets.AZURE_AKS_CLUSTER }}
        
   
     - name: 🧰 Setup .NET Core
@@ -42,7 +38,7 @@ jobs:
     - name: 🔐 Login to ACR
       uses: Azure/docker-login@v1  
       with:  
-        login-server: ${{ env.ACR_RESOURCE_URI }}
+        login-server: ${{ secrets.ACR_RESOURCE_URI }}
         username: ${{ secrets.ACR_USER }}  
         password: ${{ secrets.ACR_PASSWORD }}
 
@@ -57,84 +53,15 @@ jobs:
       with: 
        context: .
        tags: azuretoolsacr.azurecr.io/razorapp:1.0.0
-       push: ${{ github.ref == 'refs/heads/master' }}
-         
-     
-#     - uses: Azure/k8s-create-secret@v1
-#       with:
-#         container-registry-url: azuretoolsacr.azurecr.io
-#         container-registry-username: ${{ secrets.ACR_USER }}
-#         container-registry-password: ${{ secrets.ACR_PASSWORD }}
-#         secret-name: azuretoolscred
-
-#     - uses: Azure/k8s-deploy@v1
-#       with:
-#         manifests: |
-#           manifests/deploy.yaml
-#           manifests/service.yaml
-#         images: |
-#           azuretoolsacr.azurecr.io/razorpage:${{ github.sha }}
-#         imagepullsecrets: |
-#           azuretoolscred
+       push: ${{ github.ref == 'refs/heads/master' }}  
      
     - name: 🌐 kubectl apply
       run: |
        kubectl apply -f manifests/deploy.yaml
        kubectl apply -f manifests/service.yaml
        
-#       # Create namespace if doesn't exist
-#     - run: |
-#         kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o json | kubectl apply -f -
-        
-#       # Create image pull secret for ACR
-#     - uses: azure/k8s-create-secret@v1
-#       with:
-#         container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
-#         container-registry-username: ${{ secrets.ACR_USER }}
-#         container-registry-password: ${{ secrets.ACR_PASSWORD }}
-#         secret-name: ${{ env.SECRET }}
-#         namespace: ${{ env.NAMESPACE }}
-#         arguments: --force true
     
-      
-#     - name: 📃 Set AKS context
-#       uses: azure/aks-set-context@v1
-#       with:
-#         creds: '${{ secrets.AZURE_CREDENTIALS }}'
-#         cluster-name: ${{ env.AZURE_AKS_CLUSTER }}
-#         resource-group: ${{ env.AKS_RESOURCE_GROUP }}
-     
-      
-#     - name: 🌐 kubectl apply
-#       run: |
-#         kubectl apply -f https://raw.githubusercontent.com/dotnet/tye/master/docs/tutorials/hello-tye/redis.yaml
-       
-        
-#     - name: 🌐 Install ingress-nginx
-#       run: |
-#         kubectl apply -f https://aka.ms/tye/ingress/deploy
-        
-#     - name: 🌐 kubectl apply deployment 
-#       run: |
-#           kubectl apply -f acr-nginx.yaml
-      
-
-   
-#     - name: 🌐 kubectl apply deployment 
-#       run: |
-#           kubectl apply -f acr-frontend.yaml
-          
-   
-#     - name: Cmdline@2
-#       run: | 
-#           kubectl  rollout restart deployment/frontend
-    
-        
-#     - name: ☸ tye deploy
-#       run: |
-#         tye deploy -v debug
-        
-#     - name: Cmdline@2
-#       run: | 
-#            kubectl  rollout restart deployment/frontend
+    - name: Cmdline@2
+      run: | 
+           kubectl  rollout restart deployment/razorpage
     
