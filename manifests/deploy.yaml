@@ -3,16 +3,16 @@ apiVersion: apps/v1
 metadata:
   name: razorpage
   labels:
-    app.kubernetes.io/name: 'razor-page'
+    app.kubernetes.io/name: 'razorpage'
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: 'razor-page'
+      app.kubernetes.io/name: razorpage
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: 'razor-page'
+        app.kubernetes.io/name: 'razorpage'
     spec:
       containers:
       - name: razor-page
