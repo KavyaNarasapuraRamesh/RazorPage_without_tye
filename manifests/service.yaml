@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: razorpage
   labels: 
-    app.kubernetes.io/name: razorpage
+    app: razorpage
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/name: razorpage
+    app: razorpage
   ports:
   - port: 80
     targetPort: 8080
