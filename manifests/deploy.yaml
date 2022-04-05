@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/name: 'razorpage'
     spec:
       containers:
-      - name: razor-page
+      - name: razorpage
         image: azuretoolsacr.azurecr.io/razorpage:1.0.0
         imagePullPolicy: Always
         ports:
