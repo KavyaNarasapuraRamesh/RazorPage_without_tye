@@ -14,7 +14,7 @@ spec:
       labels:
         app.kubernetes.io/name: 'razor-page'
     spec:
-    containers:
+      containers:
       - name: razor-page
         image: azuretoolsacr.azurecr.io/razorpage:1.0.0
         imagePullPolicy: Always

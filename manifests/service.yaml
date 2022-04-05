@@ -6,7 +6,6 @@ metadata:
     app.kubernetes.io/name: 'razor-page'
 spec:
   selector:
-<<<<<<< HEAD
     app.kubernetes.io/name: razor-page
   type: ClusterIP
   ports:
@@ -14,12 +13,3 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
-=======
-    app: razorpage
-  type: ClusterIP
-  ports:
-  - name: http
-    port: 80
-    targetPort: 80
-    protocol: TCP
->>>>>>> 6a83720a7362ba08c266c98edbec1eff3b665e88
